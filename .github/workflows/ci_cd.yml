@@ -33,15 +33,16 @@ jobs:
   promote:
     needs: test
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
 
     steps:
-      
-      name: Checkout master
-      uses: actions/checkout@v4
-      with:
-        ref: master
-        fetch-depth: 0
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
 
-            
-      name: Push master to main
-      run: git push origin master:main
+      - name: Push master to main
+        run: git push origin master:main
