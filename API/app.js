@@ -1,3 +1,4 @@
+//docker compose up --build 
 require('dotenv').config();
 const QRCode = require('qrcode');
 const express = require('express');
@@ -102,6 +103,23 @@ db.connect(function(err) {
 
 app.get('/', (req,res) =>{
     res.send("Hello from node API YAY");
+});
+
+app.get("/health", (req, res) => {
+  db.query("SELECT 1", (err) => {
+    if (err) {
+      console.error("Health check database query failed:", err);
+      return res.status(503).json({
+        status: "unhealthy",
+        database: "unavailable"
+      });
+    }
+
+    return res.status(200).json({
+      status: "healthy",
+      database: "connected"
+    });
+  });
 });
 
 

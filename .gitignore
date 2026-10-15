@@ -3,3 +3,6 @@
 
 # installers
 *.exe
+
+#ignore logs lmao
+access.log

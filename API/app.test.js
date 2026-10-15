@@ -142,6 +142,33 @@ describe("GET /", () => {
   });
 });
 
+describe("GET /health", () => {
+  test("returns healthy when the database responds", async () => {
+    const res = await request(app).get("/health");
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({
+      status: "healthy",
+      database: "connected"
+    });
+    expect(db.query).toHaveBeenCalledWith("SELECT 1", expect.any(Function));
+  });
+
+  test("returns 503 when the database query fails", async () => {
+    mockQuery((sql, done) => {
+      done(new Error("Database unavailable"));
+    });
+
+    const res = await request(app).get("/health");
+
+    expect(res.statusCode).toBe(503);
+    expect(res.body).toEqual({
+      status: "unhealthy",
+      database: "unavailable"
+    });
+  });
+});
+
 describe("GET /api/qr", () => {
   test("returns the contact rows", async () => {
     const res = await request(app).get("/api/qr");
