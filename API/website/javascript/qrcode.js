@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         qrcodeImg.src = qrData.qrCode;
         console.log(qrData.qrCode);
         downloadButton.disabled = false;
-        
+        loadEntries();
     });
 
     downloadButton.addEventListener("click", () => {

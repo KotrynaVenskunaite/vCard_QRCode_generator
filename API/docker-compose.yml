@@ -34,7 +34,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent && mysql -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" \"$$MYSQL_DATABASE\" -Nse 'SELECT 1 FROM qr_codes LIMIT 0' >/dev/null"]
       interval: 5s
       timeout: 5s
       retries: 20

@@ -1,3 +1,4 @@
+//docker compose down -v
 //docker compose up --build 
 require('dotenv').config();
 const QRCode = require('qrcode');
