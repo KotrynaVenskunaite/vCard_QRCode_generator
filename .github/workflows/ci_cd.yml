@@ -3,9 +3,9 @@ name: CI
 on:
   push:
     branches: [main, master]
-  permissions:
-    contents: write
   pull_request:
+permissions:
+  contents: write
 
 jobs:
   test:
