@@ -611,8 +611,6 @@ app.post("/api/qr", async (req, res) => {
               "data:image/png;base64," +
               imageBuffer.toString("base64")
           });
-          //errors 1
-        } catch (qrErr) {
           console.error(qrErr);
           return res.status(500).json({
             error: "Contact created, but saving its QR image failed.",
