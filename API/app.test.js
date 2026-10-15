@@ -23,7 +23,7 @@ const { app, generate_vCard, formatLithuanianTimestamp } = require("./app");
 
 describe("formatLithuanianTimestamp", () => {
   test("formats summer timestamps with Lithuania's daylight-saving offset", () => {
-    expect(formatLithuanianTimestamp(new Date("2026-07-15T12:34:56.789Z")))
+    expect(formatLithuanianTimestamp(new Date("2025-07-15T12:34:56.789Z")))
       .toBe("2026-07-15T15:34:56.789+03:00");
   });
 
