@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>vCard QR Code</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/styles/qrcode.css" rel="stylesheet" type="text/css">
+        <!-- JQUERY -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script> 
+        <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+        <script src="javascript/qrcode.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.js" integrity="sha512-oxrVyBhqnzQ0BzuM0A/6dEIk0alz0p4SpDRaWvtuUoarIc8rnL5lVniHG5Dp21MRFojcQcmKHjaskNXhSaUPPw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    </head>
+
+    <header>
+        <div class="image_container">
+            <div class="banner_cont">
+                <img src="img/QR title_2.png" alt="Banner" class="banner">
+            </div>
+            <div class="banner_chara_cont">
+                <img src="img/Oscar.png" alt="Banner_character" , class="Oscar">
+            </div>
+        </div>
+    </header>
+
+    <body>
+        <div class="page_container">
+            <div id="qrcode-container">
+                <!-- <h1>QR CODE GENERATOR</h1> -->
+
+                <form id="field_form">
+                    <div class="field_container">
+                        
+                        <div class="info_field">
+                            <label for="first_name">First name:</label>
+                            <input type="text" maxlength="16" id="first_name" name="fname"/>
+                            <a id="name_alert" class="alert"></a>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="lname">Last name:</label>
+                            <input type="text" maxlength="16" id="last_name" name="lname"/>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="tel">Tel:</label>
+                            <input type="tel" maxlength="15" minLength="2" id="phone_number" name="tel"/>
+                            <a id="tel_alert" class="alert"></a>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email"/>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="street">Street:</label>
+                            <input type="text" id="adress_street" name="street"/>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="city">City:</label>
+                            <input type="text" id="adress_city" name="city"/>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="country">Country:</label>
+                            <input type="text" id="adress_country" name="country"/>
+                        </div>
+
+                        <div class="info_field">
+                            <label for="birthday">Birthday:</label>
+                            <input type="date" id="birthday" name="birthday"/>
+                        </div>
+                    
+                        
+                    </div>
+                    <input type="submit" id="qrcode_button" value="Generate">
+                </form>
+            </div>
+
+            <div class="qr_box_field">
+                <div id="qr_box"><img id="qrcode_image"/></div>
+                <button id="download_button" type="button" disabled>Download</button>
+            </div>
+
+            <div class="scroll_container">
+                <div id="top_names">NAME    | TEL</div>
+                <div id="entry_container">
+                    <div id="entries">
+                        <div class="retrieve_button" id = 0></div>
+                        <div id="entry_name"></div>
+                        <div id="entry_tel"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll_container">
+                <div id="top_names">LOGS</div>
+                <div id="log_container">
+                    <div id="log_entries">
+                        <!-- <div id="time"></div>
+                        <div id="ip"></div>
+                        <div id="method"></div>
+                        <div id="path"></div>
+                        <div id="status"></div>
+                        <div id="user"></div>
+                        <div id="duration"></div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <br>
+        <div id="qr-container"></div>
+        
+           
+       
+
+
+        <!-- <div class="container">
+            <h1 class="text-center">QR VCard Generator</h1>
+            <form class="form-inline">
+                <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="firstName">First Name</label>
+                    <br>
+                    <input type="text" class="form-control" id="firstName">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="lastName">Last Name</label>
+                    <br>
+                    <input type="text" class="form-control" id="lastName">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="addyStreet">Street</label>
+                    <br>
+                    <input type="text" class="form-control" id="addyStreet">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="addyCity">City</label>
+                    <br>
+                    <input type="text" class="form-control" id="addyCity">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="addyCountry">Country</label>
+                    <br>
+                    <input type="text" class="form-control" id="addyCountry">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="emailPersonal">Email (Personal)</label>
+                    <br>
+                    <input type="email" class="form-control col-sm-4" id="emailPersonal" placeholder="john.doe@example.com">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="phonePersonal">Phone (Personal)</label>
+                    <br>
+                    <input type="tel" class="form-control col-sm-4" id="phonePersonal" placeholder="###-###-####">
+                </div>
+                </div>
+                <p class="small">Using the API from <a href="http://goqr.me/api/" target="_blank">GoQR.me</a>.</p>
+                <div class="qr-out row">
+                <img class="qr-img" alt="">
+                </div>
+                <div class="biscard-out">
+                </div>
+            </form>
+        </div> -->
+
+    </body>
+</html>
