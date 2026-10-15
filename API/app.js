@@ -19,6 +19,29 @@ const logStream = fs.createWriteStream(
   { flags: "a" }
 );
 
+function formatLithuanianTimestamp(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Vilnius",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    fractionalSecondDigits: 3,
+    hourCycle: "h23",
+    timeZoneName: "longOffset"
+  })
+    .formatToParts(date)
+    .reduce((values, part) => {
+      if (part.type !== "literal") {
+        values[part.type] = part.value;
+      }
+      return values;
+    }, {});
+
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}.${parts.fractionalSecond}${parts.timeZoneName.replace("GMT", "")}`;
+}
 
 
 
@@ -45,7 +68,7 @@ morgan.token("request-source", (req) => {
 // Log all required request details.
 app.use(morgan((tokens, req, res) => {
   const logEntry = {
-    timestamp: new Date().toISOString(),
+    timestamp: formatLithuanianTimestamp(),
     ip: tokens["remote-addr"](req, res),
     method: tokens.method(req, res),
     path: tokens.url(req, res),
@@ -534,15 +557,15 @@ app.post("/api/qr", async (req, res) => {
         const existing = results[0];
         let imageBuffer = existing.qrcode;
 
-        // Older contacts may not have a saved QR image yet.
-        if (!imageBuffer) {
-          imageBuffer = await makeQrBuffer();
+        // // Older contacts may not have a saved QR image yet.
+        // if (!imageBuffer) {
+        //   imageBuffer = await makeQrBuffer();
 
-          await db.promise().query(
-            "UPDATE qr_codes SET qrcode = ? WHERE id = ?",
-            [imageBuffer, existing.id]
-          );
-        }
+        //   await db.promise().query(
+        //     "UPDATE qr_codes SET qrcode = ? WHERE id = ?",
+        //     [imageBuffer, existing.id]
+        //   );
+        // }
 
         return res.status(200).json({
           success: true,
@@ -636,7 +659,11 @@ app.get("/api/logs", (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-});
+  });
+}
+
+module.exports = { app, generate_vCard, formatLithuanianTimestamp };
