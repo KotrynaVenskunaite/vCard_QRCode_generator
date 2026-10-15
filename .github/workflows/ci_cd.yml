@@ -30,3 +30,18 @@ jobs:
 
       - name: Run tests
         run: npm test
+  promote:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      name: Checkout master
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        fetch-depth: 0
+
+            
+      name: Push master to main
+      run: git push origin master:main
