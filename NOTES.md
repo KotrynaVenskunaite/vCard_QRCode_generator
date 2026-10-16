@@ -5,9 +5,10 @@
 - Required fields are first name and phone number. Everything else is optional.
 - The QR code contains a vCard 3.0. The built-in camera apps on iOS and Android recognise it . Empty optional fields are left out.
 - QR images are generated on the server and stored in the database. Each image is generated once, saved as PNG bytes, and returned as a Base64 data URL. The history page shows the exact same image again without regenerating it.
-- Submitting an identical contact returns the existing record (200, duplicate: true) instead of creating a copy.
-- Every request is logged as one JSON line in access.log: timestamp (Lithuanian time), IP, method, path, status, user agent, source (UI or API) and duration. Logs can be viewed on the website or through GET /api/logs.
+- Submitting an identical contact returns the existing record instead of creating a copy.
+- Every request is logged as one JSON line in access.log: timestamp: IP, method, path, status, user agent, source (UI or API) and duration.
 - The health check also checks the database. /health runs a simple query and returns 503 if MySQL is down. Docker uses it to mark the API as healthy, and the API only starts after MySQL is healthy.
+- Docker mounts a named MySQL volume and API/logs to the container, making the ddata survive redeployment.
 
 ## Technology choices
 
