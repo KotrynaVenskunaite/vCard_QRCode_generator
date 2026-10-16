@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(qrData.qrCode);
         downloadButton.disabled = false;
         loadEntries();
+        retrieveLogs();
     });
 
     downloadButton.addEventListener("click", () => {
@@ -80,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             retrieveButton.textContent = '+';
             retrieveButton.addEventListener('click', function () {
                 retrieveContact(contact.id);
+                retrieveLogs();
             });
 
             // Create the contact name
