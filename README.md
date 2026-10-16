@@ -6,59 +6,12 @@ Contacts and their generated QR images are stored in MySQL, every request is wri
 
 ## Architecture overview
 
-The application consists of four Docker containers defined in [`API/docker-compose.yml`](API/docker-compose.yml):
+The application consists of four Docker containers defined in API/docker-compose.yml:
 
 nginx/website (frontend) (8080)
 api (3000)
 mysql (3306)
 phpmyadmin (8081)
-
----
-
-## Technology stack
-
-| Layer             | Technology                                                     |
-| ----------------- | -------------------------------------------------------------- |
-| Backend runtime   | Node.js 22 (`node:22-bookworm-slim` Docker image)              |
-| Web framework     | Express                                                        |
-| Database          | MySQL 8.4                                                      |
-| Database driver   | `mysql2`                                                       |
-| QR generation     | `qrcode` (PNG output)                                          |
-| API documentation | OpenAPI 3.0 via `swagger-jsdoc` + `swagger-ui-express`         |
-| Request logging   | `morgan` (custom JSON format, Europe/Vilnius timestamps)       |
-| Config            | `dotenv`                                                       |
-| Frontend          | Static HTML, CSS, vanilla JavaScript + jQuery, served by nginx |
-| DB admin          | phpMyAdmin                                                     |
-| Testing           | Jest + Supertest                                               |
-| Containers        | Docker, Docker Compose                                         |
-| CI/CD             | GitHub Actions                                                 |
-
----
-
-## Project structure
-
-```
-vCard_QRCode_generator-main/
-├── .github/workflows/ci_cd.yml   # GitHub Actions
-├── README.md
-└── API/
-    ├── app.js                    # Express API (routes, logging, Swagger)
-    ├── app.test.js               # Jest/Supertest tests
-    ├── init.sql                  # Database (run on first MySQL start)
-    ├── Dockerfile                # API container image
-    ├── docker-compose.yml        # Full stack definition
-    ├── .env                      # Local configuration (not baked into image)
-    ├── .dockerignore
-    ├── package.json
-    ├── Logs/                     # access.log is written here (bind mount)
-    └── website/                  # Static frontend served by nginx
-        ├── index.html
-        ├── javascript/qrcode.js
-        ├── styles/qrcode.css
-        └── img/
-```
-
----
 
 ## Local setup
 
